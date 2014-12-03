@@ -41,10 +41,13 @@ def Search( item ):
         url = SUBOM_API % (item['mansearchstr'])
     else:
         url = SUBOM_API % (item['title'])
-    socket = urllib.urlopen( url )
-    data = socket.read()
-    socket.close()
-    soup = BeautifulSoup(data)
+    try:
+        socket = urllib.urlopen( url )
+        data = socket.read()
+        socket.close()
+        soup = BeautifulSoup(data)
+    except:
+        return
     results = soup.find_all("div", class_=re.compile("subs_list"))
     for it in results:
         link = it.a.get('href').encode('utf-8')
